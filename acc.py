@@ -1,5 +1,6 @@
 import numpy as np 
-from np.linalg import norm
+from numpy.linalg import norm
+from IPython import embed
 
 def acceleracions(x, masses, A = 1, B = 1):
 	""" Funció d'acceleracions 
@@ -7,19 +8,21 @@ def acceleracions(x, masses, A = 1, B = 1):
 	Retorna l'acceleracio de cada particula en t, usant Newton (npart, 3)
 	"""
 	npart = x.shape[0]
-	"""S'ha de fer una versió més xetada usant 3a llei de Newton, no cal fer tants calculs """
-	forces = np.zeros((npart, 3))
-	for part_rep in range(npart):
-		x_rep = x[part_rep]
-		força_part_rep = np.zeros(3)
-		for part_actua in range(npart):
-			x_actua = x[part_actua]
+	forces = np.zeros((npart, npart, 3)) #Creo una matriu on M(i,j) = Força i --> j
+	for i in range(npart):
+		x_actua = x[i]
+		for j in range(i):
+			x_rep = x[j]
 			vec = x_rep-x_actua
-			força = (A/np.pow(norm(vec), 13) + B/np.pow(norm(vec), 7))*vec
-			força_part_rep += força
+			força = (A/np.power(norm(vec), 13) + B/np.power(norm(vec), 7))*vec
+			forces[i][j] = força
 
-		forces[part_rep] = força_part_rep
-	return np.multiply(1/masses, forces)
+	for j in range(npart):  #3a llei de newton
+		for i in range(j):
+			forces[i][j] = -forces[j][i]
+
+	forces = np.sum(forces, axis=0) #Sumem per columnes
+	return np.multiply(1/(masses.reshape(2, 1)), forces)
 
 
-
+print(acceleracions(np.array([[2,2,2], [1,1,1]]), np.array([1,2])))

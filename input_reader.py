@@ -1,6 +1,7 @@
 import numpy as np
 
 def llegeix(fitxer): 
+
 	""" Llegeix un fitxer d'entrada i 
 	retorna un diccionari amb les dades del model
 
