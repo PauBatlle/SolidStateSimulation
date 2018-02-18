@@ -52,7 +52,6 @@ class Experiment():
 		logging.info("Simulació acabada correctament, processant resultats")		
 		#Energies potencial i cinètica
 		#Trajectòries
-		#
 		pass	
 
 ### Paràmetres Default
