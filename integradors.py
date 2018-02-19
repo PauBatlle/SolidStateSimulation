@@ -1,5 +1,7 @@
 import numpy as np
+from acc import Acceleracions
 import logging
+
 """
 Fitxer d'integradors: Un integrador ha d'agafar
 --> Posicions(t): Np array de (npart,3)

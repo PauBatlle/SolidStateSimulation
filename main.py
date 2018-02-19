@@ -38,7 +38,7 @@ class Experiment():
 		self.accelerations = np.zeros((npart, 3, self.params.niter))
 		pos_act = self.initial["posicions_inicials"]
 		vel_act = self.initial["velocitats_inicials"]
-		integrador = integradors.string2func(self.params.integrador) #De moment!
+		integrador = integradors.string2func(self.params.integrador)
 		logging.info("Començant simulació, " + str(self.params.niter) + " iteracions, timestep = " + str(self.params.timestep))
 		for step in t(range(self.params.niter)):
 			pos_ant = self.positions[:,:,step-1]
@@ -52,6 +52,7 @@ class Experiment():
 		logging.info("Simulació acabada correctament, processant resultats")		
 		#Energies potencial i cinètica
 		#Trajectòries
+		#WIP
 		pass	
 
 ### Paràmetres Default
