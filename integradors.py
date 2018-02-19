@@ -8,7 +8,7 @@ Fitxer d'integradors: Un integrador ha d'agafar
 --> Velocitats(t): Np array de (npart,3)
 --> Acceleracions(t): Np array de (npart,3) (Que prové de crida la funcio de forces)
 (En alguns casos, també posicions de t-1)
-I ha de retornar, AMB AQUEST ORDRE:
+I ha de retornar, AMB AQUEST ORDRE: gnornfope
 --> Posicions(t+1): Una nova np array de (npart, 3)
 --> Velocitats(t+1): Una nova np array de (npart, 3)
 És a dir, únicament ha de fer UN step (el for es fa des del codi principal)
