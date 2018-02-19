@@ -3,6 +3,7 @@ from acc import acceleracions
 import logging
 
 """
+joan midif
 Fitxer d'integradors: Un integrador ha d'agafar
 --> Posicions(t): Np array de (npart,3)
 --> Velocitats(t): Np array de (npart,3)
