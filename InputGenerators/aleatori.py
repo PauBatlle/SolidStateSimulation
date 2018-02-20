@@ -26,8 +26,8 @@ vzmin = -vzmax
 massmax = 1 #Les masses estaran uniformes entre [massmin, massmax]
 massmin = 0
 
-nom_model = "Exemple"
-output = "InputsGenerats/Exemple_output_generat_per_input_generator"
+nom_model = "Exemple2"
+output = "../InputsGenerats/"+nom_model
 
 ## No tocar a partir d'aquí
 
