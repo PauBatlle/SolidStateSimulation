@@ -2,7 +2,8 @@ import numpy as np
 from numpy.linalg import norm
 
 def acceleracions(x, masses, A = 1, B = 1):
-	""" Funció d'acceleracions 
+	""" 
+	Funció d'acceleracions 
 	X: les posicions de totes les partícules  en t (npart, 3)
 	Retorna l'acceleracio de cada particula en t, usant Newton (npart, 3)
 	"""
