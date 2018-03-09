@@ -94,4 +94,4 @@ if args_parsed.integrador is not None:
 logging.basicConfig(format='%(asctime)s %(module)s %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 logger.info("Començant Experiment")
-Experiment(args_parsed.input, parameters(niter = niter, timestep = timestep, sigma = sigma, eps = eps, integrador = integrador))
+exp = Experiment(args_parsed.input, parameters(niter = niter, timestep = timestep, sigma = sigma, eps = eps, integrador = integrador))
