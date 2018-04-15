@@ -1,0 +1,30 @@
+OBS
+La documentació només es de molecular dynamics i d'integradors
+
+WTF perquè hi ha un None000000 que és literalment el que diu?
+
+Els archivos sense terminació són inputs generats
+
+
+FEINETA 
+
+(Postposed)
+Generar un input per primera vegada. Guardar nom: EntradaXoc1
+
+Apendre a executar el codi.
+
+Guardar els resultats d'alguna manera: ResultatXoc1
+
+(Actual)
+Entendre què volen dir les constants.
+	Fer document amb exemples de constants reals.
+
+Escriure latex amb la deducció del xoc de boles de billar.
+
+Planificar els experiments a fer en la simulació de xocs.
+
+
+
+
+
+
