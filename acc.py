@@ -1,7 +1,7 @@
 import numpy as np 
 from numpy.linalg import norm
 
-def acceleracions(x, masses, A = 1, B = 1):
+def acceleracions(x, masses, A = 1, B = 1):#sugerencia: masses = columna de 1ns o similar, ¿1 sol parametre?
 	""" 
 	Funció d'acceleracions 
 	X: les posicions de totes les partícules  en t (npart, 3)

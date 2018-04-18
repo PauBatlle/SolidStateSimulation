@@ -36,16 +36,13 @@ def Euler(x_t, vel_t, acc_t, timestep):
 
 def Runge_Kutta(x_t, x_t_1, vel_t, acc_t, timestep):
 	
-    
+    raise Exception("Mètode no implementat encara")
+    #crida a Runge Kutta, RK4 necessita calcular acceleracions, ¿problema amb masses?, totes iguals per defecte 
 	return 2*x_t-x_t_1+acc_t*np.power(timestep,2), acc_t*timestep + vel_t
 	
 
 def Verlet(x_t, vel_t, acc_t, timestep):
 	
-	raise Exception("Mètode no implementat encara")
-	new_v = np.zeros((npart, 3))
-	new_x = np.zeros((npart, 3))
-	#[...]
 	return 2*x_t-x_t_1+acc_t*np.power(timestep,2), acc_t*timestep + vel_t
 
 

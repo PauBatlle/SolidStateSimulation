@@ -76,7 +76,7 @@ class Experiment():
 			self.velocities[:,:,step] = vel_act
 			acc_act = acceleracions(pos_act, masses, self.params.A, self.params.B)
 			self.accelerations[:,:,step] = acc_act
-			pos_act, vel_act = integrador(pos_act, vel_act, acc_act, timestep)
+			pos_act, vel_act = integrador(pos_act, vel_act, acc_act, timestep) #pel Verlet(pos_act, pos_act-1, vel_act...), potser ho canviem per tot?
 		logging.info("")
 	def postprocessa(self):
 		logging.info("Simulació acabada correctament, processant resultats")		
