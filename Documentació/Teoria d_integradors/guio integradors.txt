@@ -1,0 +1,22 @@
+Integradors, usats i rational al radera:
+    
+Euler Method:
+       r(t+h) = r(t) + v(t)*h
+       v(t+h) = v(t) + a(r(t))*h
+    (first order both)
+
+Runge Kuta method:
+    supouse we have the following ODE: y' = f(y)
+    a further refinement of the Euler method can be the following:
+       
+
+Verlet method:
+    r(t+h) = 2*r(t) - r(t-h) + h^2*a(r(t))
+   (third order), prof:
+    r(t+h) = r(t) + h*v(t) + h^2/2!*a(t) + h^3/3!*a'(t) + O(h^4)
+    r(t-h) = r(t) - h*v(t) + h^2*/2!a(t) - h^3*/3!*a'(t) + O(h^4)
+    and addding up the 2 previous terms we obtain the previous expresion
+    v(t+h) = v(t) + h*a(t)
+    , first order method. Note that further calculations can be used for a more precise cumputation of v(t) but it will not affect r(t) precision as it is independent from v(t).
+    We will use this method for its precision and small computation time.
+        
