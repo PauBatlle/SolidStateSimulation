@@ -11,27 +11,29 @@ from IPython import embed
 from sys import exit as rop
 
 class parameters():
-	def __init__(self, niter, timestep, sigma, eps, integrador):
+	def __init__(self, niter, timestep, sigma, eps, integrador, save):
 		self.niter = niter #Nombre d'iteracions
 		self.timestep = timestep #Timestep de l'integrador
 		self.sigma = sigma #Finite distance in which interpotential = 0
 		self.eps = eps #Eps = Depth of the potential well
 		self.integrador = integrador
-		self.calcula_altres()
+		self.save = save
+		#self.calcula_altres()
 
+	"""
 	def calcula_altres(self):
-		""" Calcula A, B, r_m """ 
+		# Calcula A, B, r_m 
 		self.A = 4*self.eps*np.power(self.sigma, 12)
 		self.B = 4*self.eps*np.power(self.sigma, 12)
 		self.r_m = self.sigma*np.power(2, 1/6) #Distància amb el mínim de potencial
-
+	"""
 	def __str__(self):
 		s = ""
-		s = s + "-Sig:" + str(round(self.sigma, 4))
-		s = s + "-Eps:" + str(round(self.eps, 4))
-		s = s + "-Niter:" + str(self.niter)
-		s = s + "-logtstep:" + str(round(np.log10(self.timestep), 4))
-		s = s + "-Integr:" + self.integrador
+		s = s + "_Sig_" + str(round(self.sigma, 4))
+		s = s + "_Eps_" + str(round(self.eps, 4))
+		s = s + "_Niter_" + str(self.niter)
+		s = s + "_tstep_" + str(self.timestep)
+		s = s + "_Integr_" + self.integrador
 		return s
 
 class Experiment():
@@ -42,7 +44,8 @@ class Experiment():
 		if not self.done_before():
 			self.itera()
 			self.postprocessa()
-			self.save()
+			if self.params.save:
+				self.save()
 		#os.system("rm "+"-r "+self.directory) #S'ha de borrar això després, és temporal!!
 	def done_before(self):
 		"""
@@ -54,7 +57,7 @@ class Experiment():
 			os.makedirs(self.directory)
 			logging.info("No s'ha calculat, creant directori per guardar els resultats")
 			return False
-		logging.info("Simulació ja calculada, " + self.directory)
+		logging.info("Simulació ja calculada, acabant execució" + self.directory)
 		return True
 		
 
@@ -78,6 +81,7 @@ class Experiment():
 			self.accelerations[:,:,step] = acc_act
 			pos_act, vel_act = integrador(pos_act, vel_act, acc_act, timestep) #pel Verlet(pos_act, pos_act-1, vel_act...), potser ho canviem per tot?
 		logging.info("")
+	
 	def postprocessa(self):
 		logging.info("Simulació acabada correctament, processant resultats")		
 		#Energies potencial i cinètica
