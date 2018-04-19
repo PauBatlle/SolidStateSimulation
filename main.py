@@ -17,16 +17,8 @@ class parameters():
 		self.sigma = sigma #Finite distance in which interpotential = 0
 		self.eps = eps #Eps = Depth of the potential well
 		self.integrador = integrador
-		self.save = save
-		#self.calcula_altres()
+		self.save = save #Si guardem tots els valors o no. NO recomanable si npart >> 100 i/o timestep >> 1000
 
-	"""
-	def calcula_altres(self):
-		# Calcula A, B, r_m 
-		self.A = 4*self.eps*np.power(self.sigma, 12)
-		self.B = 4*self.eps*np.power(self.sigma, 12)
-		self.r_m = self.sigma*np.power(2, 1/6) #Distància amb el mínim de potencial
-	"""
 	def __str__(self):
 		s = ""
 		s = s + "_Sig_" + str(round(self.sigma, 4))
@@ -41,12 +33,17 @@ class Experiment():
 		self.initial = llegeix(fitxer_entrada)
 		self.params = params
 		self.unique_str = self.initial["model"]+str(self.params)
+		self.itera()
+
+		"""
 		if not self.done_before():
 			self.itera()
 			self.postprocessa()
 			if self.params.save:
 				self.save()
+		"""
 		#os.system("rm "+"-r "+self.directory) #S'ha de borrar això després, és temporal!!
+	
 	def done_before(self):
 		"""
 		Miro si ja he fet abans aquest experiment.
@@ -60,8 +57,6 @@ class Experiment():
 		logging.info("Simulació ja calculada, acabant execució" + self.directory)
 		return True
 		
-
-
 	def itera(self):
 		npart = self.initial["npart"]
 		masses = self.initial["masses"]
@@ -77,7 +72,7 @@ class Experiment():
 			pos_ant = self.positions[:,:,step-1]
 			self.positions[:,:,step] = pos_act
 			self.velocities[:,:,step] = vel_act
-			acc_act = acceleracions(pos_act, masses, self.params.A, self.params.B)
+			acc_act = acceleracions(pos_act, masses)
 			self.accelerations[:,:,step] = acc_act
 			pos_act, vel_act = integrador(pos_act, vel_act, acc_act, timestep)
 		logging.info("")
@@ -105,6 +100,7 @@ timestep = 1e-7
 sigma = 1
 eps = 1
 integrador = "Euler"
+save = False
 
 ### Integradors suportats
 integradors_suportats = ["Euler", "Runge_Kutta", "Verlet"]
@@ -116,6 +112,7 @@ parser.add_argument("--timestep")
 parser.add_argument("--sigma")
 parser.add_argument("--eps")
 parser.add_argument("--integrador")
+parser.add_argument("--save")
 	#Si he entrat algun valor, sobreescriure
 args_parsed = parser.parse_args()
 if args_parsed.niter is not None:
@@ -126,6 +123,8 @@ if args_parsed.sigma is not None:
 	sigma = float(args_parsed.sigma)
 if args_parsed.eps is not None:
 	eps = float(args_parsed.eps)
+if args_parsed.save is not None:
+	save = bool(args_parsed.save)
 
 if args_parsed.integrador is not None:
 	if args_parsed.integrador in integradors_suportats:
@@ -138,4 +137,4 @@ if args_parsed.integrador is not None:
 logging.basicConfig(format='%(asctime)s %(module)s %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 logger.info("Començant Experiment")
-exp = Experiment(args_parsed.input, parameters(niter = niter, timestep = timestep, sigma = sigma, eps = eps, integrador = integrador))
+exp = Experiment(args_parsed.input, parameters(niter = niter, timestep = timestep, sigma = sigma, eps = eps, integrador = integrador, save = save))
