@@ -46,7 +46,7 @@ for i in range(3):
 
 masses = [rnd(massmin, massmax) for i in range(npart)]
 
-#Llegeix en un fitxer
+#Escriu en un fitxer
 with open(output, "w") as fitxer:
 	fitxer.write(nom_model + '\n')
 	fitxer.write(str(npart) + '\n')
