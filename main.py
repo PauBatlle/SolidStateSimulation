@@ -7,8 +7,9 @@ from input_reader import llegeix
 import integradors
 from acc import acceleracions
 from IPython import embed
+import matplotlib.animation as animation
+import matplotlib.pyplot as plt
 
-from sys import exit as rop
 
 class parameters():
 	def __init__(self, niter, timestep, sigma, eps, integrador, save):
@@ -33,15 +34,12 @@ class Experiment():
 		self.initial = llegeix(fitxer_entrada)
 		self.params = params
 		self.unique_str = self.initial["model"]+str(self.params)
-		self.itera()
-
-		"""
 		if not self.done_before():
 			self.itera()
-			self.postprocessa()
+			#self.postprocessa()
 			if self.params.save:
 				self.save()
-		"""
+
 		#os.system("rm "+"-r "+self.directory) #S'ha de borrar això després, és temporal!!
 	
 	def done_before(self):
@@ -51,9 +49,13 @@ class Experiment():
 		logging.info("Comprovant si ja s'ha calculat la simulació")
 		self.directory = "Resultats/"+self.unique_str
 		if not os.path.exists(self.directory):
-			os.makedirs(self.directory)
-			logging.info("No s'ha calculat, creant directori per guardar els resultats")
-			return False
+			if self.params.save:
+				os.makedirs(self.directory)
+				logging.info("No s'ha calculat, creant directori per guardar els resultats")
+				return False
+			else:
+				logging.info("No s'ha calculat, però no es guardaran els resultats")
+				return False
 		logging.info("Simulació ja calculada, acabant execució" + self.directory)
 		return True
 		
@@ -84,15 +86,33 @@ class Experiment():
 		#Trajectòries
 		
 		#Video
-		#WIP
-		pass
+		if self.params.save:
+			logging.info("Preparant el video")
+			pos = self.positions
+			skip = 10
+			stop = self.params.niter
+			npart = self.initial["npart"]
+			colors = np.linspace(0, 1, npart)
+			def _update_plot(i, fig, scat):
+	   			scat.set_offsets(tuple([[pos[j,0,skip*i], pos[j,1,skip*i]] for j in range(npart)]))
+	   			return scat
+
+			fig = plt.figure()
+			x = pos[:,0,0]
+			y = pos[:,1,0]
+			ax = fig.add_subplot(111)
+			ax.set_xlim([-5,5])
+			ax.set_ylim([-5,5])
+			scat = plt.scatter(x, y, c = colors)
+			anim = animation.FuncAnimation(fig, _update_plot, fargs = (fig, scat), frames = int(stop/skip)-1, interval = 10)
+			anim.save(self.directory+"/"+'video.mp4', writer="ffmpeg")
+			#WIP
 
 	def save(self):
 		logging.info("Guardant els resultats")
 		np.save(self.directory+"/positions", self.positions)
 		np.save(self.directory+"/velocities", self.velocities)
 		np.save(self.directory+"/accelerations", self.accelerations)
-		pass
 
 ### Paràmetres Default
 niter = 5000

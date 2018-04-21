@@ -13,18 +13,17 @@ random.seed(23)
 npart = 2 #Nombre de partícules
 xini = 4 #Distància inicial entre partícules en l'eix x
 bmax = 3 #Patàmetre d'impacte màxim
-bnum = 16 #Mida de la partició uniforme dels valors del 
+bmin = 0 #Paràmetre d'impacte mínim
+bnum = 100 #Mida de la partició uniforme dels valors del 
 			#paràmetre d'impacte que provem
 vmod = 1 #Mòdul de la velocitat a l'inici
 
 
-b = np.linspace(0,bmax, bnum)
+b = np.linspace(bmin,bmax, bnum)
 
 for k in range(bnum):
-	nom_model = "XocSimetric"+str(k)
-	output = "../InputsExpAdam/"+nom_model
-
-
+	nom_model = "XocSimetric_b="+str(b[k])
+	output = "../InputsExpAdam2/"+nom_model
 	## No tocar a partir d'aquí
 
 	posA = np.array([-xini/2, b[k]/2, 0.0], dtype = float)
