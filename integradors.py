@@ -40,6 +40,7 @@ def Euler(x_t, x_t_1, vel_t, acc_t, timestep, limits):
 	new_x = np.minimum(2*limits-new_x, new_x)
 	return new_x, new_v
 
+"""
 def Runge_Kutta(x_t, x_t_1,vel_t, acc_t, timestep):
 	
 	raise Exception("Mètode no implementat encara")
@@ -47,7 +48,7 @@ def Runge_Kutta(x_t, x_t_1,vel_t, acc_t, timestep):
 	new_x = np.zeros((npart, 3))
 	#[...]
 	return new_x, new_v
-	
+"""
 
 def Verlet(x_t, x_t_1, vel_t, acc_t, timestep, limits):
 	new_x = 2*x_t-x_t_1+acc_t*np.power(timestep,2)

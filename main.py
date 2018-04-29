@@ -5,11 +5,10 @@ from tqdm import tqdm as t
 import numpy as np
 from input_reader import llegeix
 import integradors
-from acc import acceleracions
+from acc import acceleracions2
 from IPython import embed
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
-
 
 class parameters():
 	def __init__(self, niter, timestep, sigma, eps, integrador, save):
@@ -36,9 +35,10 @@ class Experiment():
 		self.unique_str = self.initial["model"]+str(self.params)
 		if not self.done_before():
 			self.itera()
-			#self.postprocessa()
 			if self.params.save:
 				self.save()
+				self.postprocessa()
+
 
 		#os.system("rm "+"-r "+self.directory) #S'ha de borrar això després, és temporal!!
 	
@@ -74,7 +74,7 @@ class Experiment():
 			pos_ant = self.positions[:,:,step-1]
 			self.positions[:,:,step] = pos_act
 			self.velocities[:,:,step] = vel_act
-			acc_act = acceleracions(pos_act, masses)
+			acc_act = acceleracions2(pos_act, masses)
 			self.accelerations[:,:,step] = acc_act
 			pos_act, vel_act = integrador(pos_act, pos_ant, vel_act, acc_act, timestep, limit_contorn) 
 		logging.info("")
@@ -101,9 +101,12 @@ class Experiment():
 			x = pos[:,0,0]
 			y = pos[:,1,0]
 			ax = fig.add_subplot(111)
-			ax.set_xlim([-5,5])
-			ax.set_ylim([-5,5])
-			scat = plt.scatter(x, y, c = colors)
+			#ax.set_xlim([np.min(pos[:,0,:]),np.max(pos[:,0,:])])
+			#ax.set_ylim([np.min(pos[:,1,:]),np.max(pos[:,1,:])])
+			ax.set_xlim([max(-25, np.min(pos[:,0,:])), min(25, np.max(pos[:,0,:]))])
+			ax.set_ylim([max(-25, np.min(pos[:,1,:])), min(25, np.max(pos[:,1,:]))])
+
+			scat = plt.scatter(x, y, s = 5, c = colors, cmap = "gist_rainbow")
 			anim = animation.FuncAnimation(fig, _update_plot, fargs = (fig, scat), frames = int(stop/skip)-1, interval = 10)
 			anim.save(self.directory+"/"+'video.mp4', writer="ffmpeg")
 			#WIP
