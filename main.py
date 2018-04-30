@@ -6,6 +6,7 @@ import numpy as np
 from input_reader import llegeix
 import integradors
 from acc import acceleracions2
+from acc import cinetica
 from IPython import embed
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
@@ -36,9 +37,9 @@ class Experiment():
 		if not self.done_before():
 			self.itera()
 			if self.params.save:
-				self.save()
+				#self.save()
 				self.postprocessa()
-
+			embed()
 
 		#os.system("rm "+"-r "+self.directory) #S'ha de borrar això després, és temporal!!
 	
@@ -64,6 +65,8 @@ class Experiment():
 		masses = self.initial["masses"]
 		#Creo una matriu per guardar totes les dades
 		self.positions = np.zeros((npart, 3, self.params.niter))
+		self.cinetiques = np.zeros(self.params.niter)
+		self.potencials = np.zeros(self.params.niter)
 		self.velocities = np.zeros((npart, 3, self.params.niter))
 		self.accelerations = np.zeros((npart, 3, self.params.niter))
 		pos_act = self.initial["posicions_inicials"]
@@ -74,10 +77,10 @@ class Experiment():
 			pos_ant = self.positions[:,:,step-1]
 			self.positions[:,:,step] = pos_act
 			self.velocities[:,:,step] = vel_act
-			acc_act = acceleracions2(pos_act, masses)
+			self.cinetiques[step] = cinetica(vel_act, masses)
+			acc_act, self.potencials[step] = acceleracions2(pos_act, masses)
 			self.accelerations[:,:,step] = acc_act
 			pos_act, vel_act = integrador(pos_act, pos_ant, vel_act, acc_act, timestep, limit_contorn) 
-		logging.info("")
 	
 	def postprocessa(self):
 		logging.info("Simulació acabada correctament, processant resultats")		
@@ -119,15 +122,13 @@ class Experiment():
 
 ### Paràmetres Default
 niter = 5000
-timestep = 1e-7
-sigma = 1
-eps = 1
+timestep = 1e-4
 integrador = "Euler"
 limit_contorn = 100
 save = False
 
 ### Integradors suportats
-integradors_suportats = ["Euler", "Runge_Kutta", "Verlet"]
+integradors_suportats = ["Euler", "Verlet"]
 ##Llegeix parametres d'entrada
 parser = argparse.ArgumentParser()
 parser.add_argument("--input", required = True)

@@ -34,7 +34,8 @@ def Euler(x_t, x_t_1, vel_t, acc_t, timestep, limits):
 	""" Versió vectoritzada """
 	new_x = vel_t*timestep + x_t
 	new_v = acc_t*timestep + vel_t
-	""" I ara condicions de contorn"""
+	
+	# I ara condicions de contorn
 	new_v = new_v*np.sign(new_x)*np.sign(limits-new_x)
 	new_x = np.absolute(new_x)
 	new_x = np.minimum(2*limits-new_x, new_x)
@@ -70,7 +71,5 @@ def Verlet(x_t, x_t_1, vel_t, acc_t, timestep, limits):
 def string2func(s):
 	if (s == "Euler"):
 		return Euler
-	if (s == "Runge_Kutta"):
-		return Runge_Kutta
 	if (s == "Verlet"):
 		return Verlet
