@@ -5,7 +5,7 @@ from tqdm import tqdm as t
 import numpy as np
 from input_reader import llegeix
 import integradors
-from acc import acceleracions2
+from acc import acceleracions
 from acc import cinetica
 from IPython import embed
 import matplotlib.animation as animation
@@ -39,7 +39,8 @@ class Experiment():
 			if self.params.save:
 				#self.save()
 				self.postprocessa()
-			embed()
+			plt.plot(self.potencials+self.cinetiques)
+			plt.show()
 
 		#os.system("rm "+"-r "+self.directory) #S'ha de borrar això després, és temporal!!
 	
@@ -78,7 +79,7 @@ class Experiment():
 			self.positions[:,:,step] = pos_act
 			self.velocities[:,:,step] = vel_act
 			self.cinetiques[step] = cinetica(vel_act, masses)
-			acc_act, self.potencials[step] = acceleracions2(pos_act, masses)
+			acc_act, self.potencials[step] = acceleracions(pos_act, masses)
 			self.accelerations[:,:,step] = acc_act
 			pos_act, vel_act = integrador(pos_act, pos_ant, vel_act, acc_act, timestep, limit_contorn) 
 	
@@ -123,7 +124,7 @@ class Experiment():
 ### Paràmetres Default
 niter = 5000
 timestep = 1e-4
-integrador = "Euler"
+integrador = "Verlet"
 limit_contorn = 100
 save = False
 sigma = 1
@@ -165,3 +166,4 @@ logging.basicConfig(format='%(asctime)s %(module)s %(message)s', level=logging.I
 logger = logging.getLogger(__name__)
 logger.info("Començant Experiment")
 exp = Experiment(args_parsed.input, parameters(niter = niter, timestep = timestep, sigma = sigma, eps = eps, integrador = integrador, save = save))
+
