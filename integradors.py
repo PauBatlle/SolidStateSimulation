@@ -19,7 +19,7 @@ En els mètodes més elaborats s'ha de cridar a la funció acceleracions de acc.
 
 #Mètode d'Euler: y' = f(y) --> y(t+1) = y(t) + h*f(y(t))
 
-def Euler(x_t, x_t_1, vel_t, acc_t, timestep, limits):
+def Euler(x_t, x_t_1, vel_t, acc_t, timestep, limits, step):
 
 	""" Versió ineficient, però llegible """
 	"""
@@ -51,8 +51,14 @@ def Runge_Kutta(x_t, x_t_1,vel_t, acc_t, timestep):
 	return new_x, new_v
 """
 
-def Verlet(x_t, x_t_1, vel_t, acc_t, timestep, limits):
-	new_x = 2*x_t-x_t_1+acc_t*np.power(timestep,2)
+def Verlet(x_t, x_t_1, vel_t, acc_t, timestep, limits, step):
+
+	if step == 0:
+		new_x = x_t + vel_t*timestep+0.5*acc_t*timestep*timestep
+
+	if step != 0:
+		new_x = 2*x_t-x_t_1+acc_t*np.power(timestep,2)
+		
 	""" I ara condicions de contorn"""
 	new_xp = 2*x_t-new_x
 	new_x = np.maximum(new_x, -new_xp*np.sign(x_t))
@@ -63,7 +69,7 @@ def Verlet(x_t, x_t_1, vel_t, acc_t, timestep, limits):
 	#i repeteixo
 	new_xr = np.maximum(new_xr, -new_xpr*np.sign(x_tr))
 	new_x = limits-new_xr
-	return new_x, (x_t-x_t_1)/timestep
+	return new_x, np.zeros(new_x.shape)
 
 
 #Auxiliar: no tocar

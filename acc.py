@@ -16,6 +16,7 @@ def acceleracions(x, masses):
 	X: les posicions de totes les particules en t (npart, 3)
 	Retorna les acceleracions de cada particula en t (npart, 3)
 	"""
+	eps = 1e-10
 	npart = x.shape[0]
 	forces = np.zeros((npart, npart, 3))
 	potencials = np.zeros((npart, npart))
@@ -24,7 +25,7 @@ def acceleracions(x, masses):
 		for j in range(i):
 			x_rep = x[j]
 			v = x_rep-x_act
-			r = norm(v)
+			r = norm(v)+eps
 			forces[i,j] = 24*(2*np.power(r, -14)-np.power(r, -8))*v
 			potencials[i,j] = 4*(np.power(r,-12)-np.power(r,-6))
 	forces = forces - np.transpose(forces, (1,0,2))

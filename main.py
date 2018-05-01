@@ -37,10 +37,9 @@ class Experiment():
 		if not self.done_before():
 			self.itera()
 			if self.params.save:
+				pass
 				#self.save()
-				self.postprocessa()
-			plt.plot(self.potencials+self.cinetiques)
-			plt.show()
+				#self.postprocessa()
 
 		#os.system("rm "+"-r "+self.directory) #S'ha de borrar això després, és temporal!!
 	
@@ -81,7 +80,7 @@ class Experiment():
 			self.cinetiques[step] = cinetica(vel_act, masses)
 			acc_act, self.potencials[step] = acceleracions(pos_act, masses)
 			self.accelerations[:,:,step] = acc_act
-			pos_act, vel_act = integrador(pos_act, pos_ant, vel_act, acc_act, timestep, limit_contorn) 
+			pos_act, vel_act = integrador(pos_act, pos_ant, vel_act, acc_act, timestep, limit_contorn, step) 
 	
 	def postprocessa(self):
 		logging.info("Simulació acabada correctament, processant resultats")		
@@ -107,8 +106,8 @@ class Experiment():
 			ax = fig.add_subplot(111)
 			#ax.set_xlim([np.min(pos[:,0,:]),np.max(pos[:,0,:])])
 			#ax.set_ylim([np.min(pos[:,1,:]),np.max(pos[:,1,:])])
-			ax.set_xlim([max(-25, np.min(pos[:,0,:])), min(25, np.max(pos[:,0,:]))])
-			ax.set_ylim([max(-25, np.min(pos[:,1,:])), min(25, np.max(pos[:,1,:]))])
+			ax.set_xlim([max(-limit_contorn, np.min(pos[:,0,:])), min(limit_contorn, np.max(pos[:,0,:]))])
+			ax.set_ylim([max(-limit_contorn, np.min(pos[:,1,:])), min(limit_contorn, np.max(pos[:,1,:]))])
 
 			scat = plt.scatter(x, y, s = 5, c = colors, cmap = "gist_rainbow")
 			anim = animation.FuncAnimation(fig, _update_plot, fargs = (fig, scat), frames = int(stop/skip)-1, interval = 10)
@@ -125,7 +124,7 @@ class Experiment():
 niter = 5000
 timestep = 1e-4
 integrador = "Verlet"
-limit_contorn = 100
+limit_contorn = 10
 save = False
 sigma = 1
 eps = 1
@@ -139,6 +138,7 @@ parser.add_argument("--niter")
 parser.add_argument("--timestep")
 parser.add_argument("--sigma")
 parser.add_argument("--eps")
+parser.add_argument("--contorn")
 parser.add_argument("--integrador")
 parser.add_argument("--save")
 	#Si he entrat algun valor, sobreescriure
@@ -153,6 +153,10 @@ if args_parsed.eps is not None:
 	eps = float(args_parsed.eps)
 if args_parsed.save is not None:
 	save = bool(args_parsed.save)
+if args_parsed.save is not None:
+	limit_contorn = float(args_parsed.contorn)
+
+
 
 if args_parsed.integrador is not None:
 	if args_parsed.integrador in integradors_suportats:
