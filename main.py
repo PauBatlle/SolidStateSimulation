@@ -37,9 +37,8 @@ class Experiment():
 		if not self.done_before():
 			self.itera()
 			if self.params.save:
-				pass
-				#self.save()
-				#self.postprocessa()
+				self.save()
+				self.postprocessa()
 
 		#os.system("rm "+"-r "+self.directory) #S'ha de borrar això després, és temporal!!
 	
@@ -104,28 +103,49 @@ class Experiment():
 			x = pos[:,0,0]
 			y = pos[:,1,0]
 			ax = fig.add_subplot(111)
-			#ax.set_xlim([np.min(pos[:,0,:]),np.max(pos[:,0,:])])
-			#ax.set_ylim([np.min(pos[:,1,:]),np.max(pos[:,1,:])])
-			ax.set_xlim([max(-limit_contorn, np.min(pos[:,0,:])), min(limit_contorn, np.max(pos[:,0,:]))])
-			ax.set_ylim([max(-limit_contorn, np.min(pos[:,1,:])), min(limit_contorn, np.max(pos[:,1,:]))])
-
+			ax.set_xlim([np.min(pos[:,0,:]),np.max(pos[:,0,:])])
+			ax.set_ylim([np.min(pos[:,1,:]),np.max(pos[:,1,:])])
 			scat = plt.scatter(x, y, s = 5, c = colors, cmap = "gist_rainbow")
 			anim = animation.FuncAnimation(fig, _update_plot, fargs = (fig, scat), frames = int(stop/skip)-1, interval = 10)
 			anim.save(self.directory+"/"+'video.mp4', writer="ffmpeg")
-			#WIP
+
+			logging.info("Preparant el video2")
+			plt.close()
+			pos = self.positions
+			skip = 10
+			stop = self.params.niter
+			npart = self.initial["npart"]
+			colors = np.linspace(0, 1, npart)
+			def _update_plot(i, fig, scat):
+	   			scat.set_offsets(tuple([[pos[j,0,skip*i], pos[j,1,skip*i]] for j in range(npart)]))
+	   			return scat
+
+			fig = plt.figure()
+			x = pos[:,0,0]
+			y = pos[:,1,0]
+			ax = fig.add_subplot(111)
+			#ax.set_xlim([np.min(pos[:,0,:]),np.max(pos[:,0,:])])
+			#ax.set_ylim([np.min(pos[:,1,:]),np.max(pos[:,1,:])])
+			ax.set_xlim(0, limit_contorn)
+			ax.set_ylim(0, limit_contorn)
+
+			scat = plt.scatter(x, y, s = 5, c = colors, cmap = "gist_rainbow")
+			anim = animation.FuncAnimation(fig, _update_plot, fargs = (fig, scat), frames = int(stop/skip)-1, interval = 10)
+			anim.save(self.directory+"/"+'video2.mp4', writer="ffmpeg")
+
 
 	def save(self):
 		logging.info("Guardant els resultats")
 		np.save(self.directory+"/positions", self.positions)
-		np.save(self.directory+"/velocities", self.velocities)
-		np.save(self.directory+"/accelerations", self.accelerations)
+		#np.save(self.directory+"/velocities", self.velocities)
+		#np.save(self.directory+"/accelerations", self.accelerations)
 
 ### Paràmetres Default
 niter = 5000
 timestep = 1e-4
 integrador = "Verlet"
-limit_contorn = 10
-save = False
+limit_contorn = 30
+save = True
 sigma = 1
 eps = 1
 
