@@ -126,6 +126,8 @@ timestep = 1e-4
 integrador = "Euler"
 limit_contorn = 100
 save = False
+sigma = 1
+eps = 1
 
 ### Integradors suportats
 integradors_suportats = ["Euler", "Verlet"]
