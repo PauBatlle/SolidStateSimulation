@@ -12,16 +12,15 @@ random.seed(23)
 ## Part per modificar
 temperatura = 0 #idea de l'energia inicial que tindra, anar cambiant
 
-for temperatura in np.linspace(0,0,1):
-	nom_model = "equilater2_T="+str(temperatura)
-	nom_model = "TRIANGULET"
+for temperatura in np.linspace(0,20,10):
+	nom_model = "equilater_T="+str(temperatura)
 	output = "../InputsExpArino/"+nom_model
 
 	m = 1 #masses
 	x_1 = 2 #Origen cordenada x
 	y_1 = 2 #Origen cordenada y
-	altura = 1 #quantes files/2
-	llargada = 2 #quantes columnes
+	altura = 2 #quantes files/2
+	llargada = 5 #quantes columnes
 	a = dist = np.power(2,1/6) #distància de separacio
 	npart = altura*llargada*2
 	posicions = np.zeros((npart, 3))
@@ -29,7 +28,7 @@ for temperatura in np.linspace(0,0,1):
 	#mal escrit pero diu on han d'estar les coses
 	for alt in range(1,altura+1):
 		for llar in range(1,llargada+1):
-			posicions[comptador] = np.array([x_1+llar*a, y_1+alt*sqrt(3), 0.0])
+			posicions[comptador] = np.array([x_1+llar*a, y_1+alt*a*sqrt(3), 0.0])
 			comptador += 1
 
 	for alt in range(1,altura+1):
