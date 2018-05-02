@@ -10,23 +10,23 @@ random.seed(23)
 
 ## Part per modificar
 
-npart = 10 #Nombre de partícules
-xmax = 3 #Les x inicials estaran uniformes entre [xmin, xmax]
-xmin = -xmax
-ymax = 3 #Les y inicials estaran uniformes entre [ymin, ymax]
-ymin = -ymax
-zmax = 3 #Les z inicials estaran uniformes entre [zmin, zmax]
-zmin = -zmax
+npart = 100 #Nombre de partícules
+xmax = 10 #Les x inicials estaran uniformes entre [xmin, xmax]
+xmin = 0
+ymax = 10 #Les y inicials estaran uniformes entre [ymin, ymax]
+ymin = 0
+zmax = 0 #Les z inicials estaran uniformes entre [zmin, zmax]
+zmin = 0
 vxmax = 3 #Les vx inicials estaran uniformes entre [vxmin, vxmax]
 vxmin = -vxmax
-vymax = 3 #Les vy inicials estaran uniformes entre [vymin, vtmax]
+vymax = 10 #Les vy inicials estaran uniformes entre [vymin, vtmax]
 vymin = -vymax
-vzmax = 3 #Les vz inicials estaran uniformes entre [vzmin, vzmax]
+vzmax = 0 #Les vz inicials estaran uniformes entre [vzmin, vzmax]
 vzmin = -vzmax
 massmax = 1 #Les masses estaran uniformes entre [massmin, massmax]
-massmin = 0
+massmin = 1
 
-nom_model = "Exemple2"
+nom_model = "100_2D"
 output = "../InputsGenerats/"+nom_model
 
 ## No tocar a partir d'aquí

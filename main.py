@@ -144,7 +144,7 @@ class Experiment():
 niter = 5000
 timestep = 1e-4
 integrador = "Verlet"
-limit_contorn = 30
+limit_contorn = 10
 save = True
 sigma = 1
 eps = 1
@@ -173,7 +173,7 @@ if args_parsed.eps is not None:
 	eps = float(args_parsed.eps)
 if args_parsed.save is not None:
 	save = bool(args_parsed.save)
-if args_parsed.save is not None:
+if args_parsed.contorn is not None:
 	limit_contorn = float(args_parsed.contorn)
 
 
