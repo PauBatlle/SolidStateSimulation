@@ -38,7 +38,7 @@ class Experiment():
 			self.itera()
 			if self.params.save:
 				self.save()
-				self.postprocessa()
+			self.postprocessa()
 
 		#os.system("rm "+"-r "+self.directory) #S'ha de borrar això després, és temporal!!
 	
@@ -84,11 +84,18 @@ class Experiment():
 	def postprocessa(self):
 		logging.info("Simulació acabada correctament, processant resultats")		
 		#Energies potencial i cinètica
-		
-		#Trajectòries
-		
+		plt.close
+		plt.plot(self.cinetiques, c = 'y', label = "Energia cinètica")
+		plt.plot(self.potencials, c = 'r', label = "Energia potencial")
+		plt.plot(self.cinetiques+self.potencials, c = 'b', label = "Energia total")
+		plt.xlabel("Temps (timesteps)")
+		plt.ylabel("Energia")
+		plt.legend()
+		plt.savefig("NewEnergies"+self.unique_str+".jpg")
+
 		#Video
 		if self.params.save:
+			animation.rcParams['animation.embed_limit'] = 100
 			logging.info("Preparant el video")
 			pos = self.positions
 			skip = 10
@@ -144,8 +151,8 @@ class Experiment():
 niter = 5000
 timestep = 1e-4
 integrador = "Verlet"
-limit_contorn = 10
-save = False
+limit_contorn = 30
+save = True
 sigma = 1
 eps = 1
 

@@ -12,15 +12,15 @@ random.seed(23)
 ## Part per modificar
 temperatura = 0 #idea de l'energia inicial que tindra, anar cambiant
 
-for temperatura in np.linspace(0,200,2):
-	nom_model = "equilater50_T="+str(temperatura)
+for temperatura in np.linspace(0,5,10):
+	nom_model = "equilater18_T="+str(temperatura)
 	output = "../InputsExpArino/"+nom_model
 
 	m = 1 #masses
 	x_1 = 11.4 #Origen cordenada x
 	y_1 = 9 #Origen cordenada y
-	altura = 5 #quantes files/2
-	llargada = 5 #quantes columnes
+	altura = 3 #quantes files/2
+	llargada = 3 #quantes columnes
 	a = dist = np.power(2,1/6) #distància de separacio
 	npart = altura*llargada*2
 	posicions = np.zeros((npart, 3))
