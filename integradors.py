@@ -69,7 +69,12 @@ def Verlet(x_t, x_t_1, vel_t, acc_t, timestep, limits, step):
 	#i repeteixo
 	new_xr = np.maximum(new_xr, -new_xpr*np.sign(x_tr))
 	new_x = limits-new_xr
-	return new_x, np.zeros(new_x.shape)
+	
+	if step == 0:
+		new_v = vel_t
+	if step == 1:
+		new_v = (x_t-x_t_1)/timestep
+	return new_x, new_v
 
 
 #Auxiliar: no tocar

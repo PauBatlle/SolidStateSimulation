@@ -145,7 +145,7 @@ niter = 5000
 timestep = 1e-4
 integrador = "Verlet"
 limit_contorn = 10
-save = True
+save = False
 sigma = 1
 eps = 1
 
